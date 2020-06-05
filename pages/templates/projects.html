@@ -1,0 +1,291 @@
+{% load static %}
+<!DOCTYPE html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Projects | Ethan Kern</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+<body class="template-projects">
+    <div class="container">
+        <h1>
+            <a href="{% url 'index' %}" style="margin-right: 1em;">
+                <i class="fas fa-chevron-left"></i>
+            </a> 
+            Projects & Past Work
+        </h1>
+        <div class="projects">
+            <hr>
+            <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="tfea" data-toggle="collapse" data-target="#tfeaDetail">
+                <div class="card project-card">
+                    <div class="row">
+                        <div class="card-img-container col-md-3">
+                            <img src="{% static 'img/tfea.gif' %}" alt="TFEA Preview" style="width: 100%; height: 100%;">
+                        </div>
+                        <div class="card-body col-md-9">
+                            <h2 class="card-title">TFEA Pipeline Server</h2>
+                            <p class="card-text">A web-accessible bioinformatics pipeline powered by parallel computing</p>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            <div class="container collapse project-detail" id="tfeaDetail">
+                <a href="https://tfea.colorado.edu" class="project-link" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/tfea.gif' %}" alt="TFEA Usage" style="width: 100%; height: 100%; margin: 1em 0 2em 0;">
+                    <div class="link-content">
+                        <i class="fas fa-external-link-alt fa-2x"></i>
+                    </div>
+                </a>
+                <p>
+                    <strong>Transcription Factor Enrichment Analysis (<a href="https://github.com/Dowell-Lab/TFEA" target="_blank" rel="noopener noreferrer">TFEA</a>)</strong> 
+                    is an open-source bioinformatics software developed at the BioFrontiers Institute, utilizing a computational method to analyze 
+                    differential Transcription Factor activity. I contributed to the testing & bug finding of this software.
+                </p>
+                <p>
+                    After installing and configuring the software on an HPC node, I created a web-accessible infrastructure on top of it that utilizes parallel computing  
+                    power across its 24 cores. The web app allows researchers to generate
+                    entire TFEA pipelines by uploading their input files, and inputting some parameters in a simple, intuitive GUI. Users can also view and manage 
+                    their past submissions, see job status, and view/download results directly in their browser. The backend leverages Celery to create dynamic, 
+                    asynchronous job queues, and balance system load when handling multiple users' jobs at once. Users are notified of pipeline events via email alerts.
+                </p>
+                <h4 class="text-center">Technology &bull; Frameworks &bull; Languages</h4>
+                <ul class="list-unstyled text-center" style="columns: 5;">
+                    <li>Django</li>
+                    <li>Celery</li>
+                    <li>RabbitMQ</li>
+                    <li>MySQL</li>
+                    <li>Bootstrap</li>
+                    <li>Python</li>
+                    <li>JavaScript</li>
+                    <li>LDAP</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                </ul>
+            </div>
+            <hr>
+            <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="covid19" data-toggle="collapse" data-target="#covid19Detail">
+                <div class="card project-card">
+                    <div class="row">
+                        <div class="card-img-container col-md-3">
+                            <img src="{% static 'img/COVID19.gif' %}" alt="COVID-19 Dashboard Preview" style="width: 100%; height: 100%;">
+                        </div>
+                        <div class="card-body col-md-9">
+                            <h2 class="card-title">COVID-19 Dashboard</h2>
+                            <p class="card-text">An interactive dashboard to analyze population movement using Facebook data</p>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            <div class="container collapse project-detail" id="covid19Detail">
+                <a href="https://covid19.colorado.edu" class="project-link" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/COVID19.gif' %}" alt="COVID-19 Dashboard Usage" style="width: 100%; height: 100%; margin: 1em 0 2em 0;">
+                    <div class="link-content">
+                        <i class="fas fa-external-link-alt fa-2x"></i>
+                    </div>
+                </a>
+                <p>
+                    This dashboard was created to be a resource for local governments to consult in their decision making for closures and regulations during the
+                    COVID-19 pandemic. It uses anonymous Facebook user density data to track changes in population density over time, and aggregates it into
+                    interactive Plotly Dash apps for each city. With this tool, behaviors of both individual neighborhoods and the population at large can be 
+                    inferred, such as how their movement and travel patterns have changed -- and if they hold -- after stay-at-home orders. The anonymized user 
+                    data was collected from 
+                    <a href="https://dataforgood.fb.com/" target="_blank" rel="noopener noreferrer">Facebook Data for Good</a>. I contributed to debugging, and 
+                    modifying the data ingestion of the original dashboard code.
+                </p>
+                <p>
+                    I created a web app that integrates these dashboards, and separates multiple data sets into a different view for each city. The interactive 
+                    dashboards support live updating, powered by a message-passing backend layer like Redis.
+                </p>
+                <h4 class="text-center">Technology &bull; Frameworks &bull; Languages</h4>
+                <ul class="list-unstyled text-center" style="columns: 5;">
+                    <li>Django</li>
+                    <li>Flask</li>
+                    <li>Plotly Dash</li>
+                    <li>Redis</li>
+                    <li>MySQL</li>
+                    <li>Bootstrap</li>
+                    <li>Python</li>
+                    <li>JavaScript</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                </ul>
+            </div>
+            <hr>
+            <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="collabViz" data-toggle="collapse" data-target="#collabVizDetail">
+                <div class="card project-card">
+                    <div class="row">
+                        <div class="card-img-container col-md-3">
+                            <img src="{% static 'img/collab_viz.gif' %}" alt="BioFrontiers CollabViz Preview" style="width: 100%; height: 100%;">
+                        </div>
+                        <div class="card-body col-md-9">
+                            <h2 class="card-title">BioFrontiers CollabViz</h2>
+                            <p class="card-text">A research-oriented collaboration visualizer for the BioFrontiers Institute</p>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            <div class="container collapse project-detail" id="collabVizDetail">
+                <img src="{% static 'img/collab_viz.gif' %}" alt="BioFrontiers CollabViz Usage" style="width: 100%; height: 100%; margin: 1em 0 2em 0;">
+                <p>
+                    This internal tool visualizes collaboration between researchers, departments, and the core/support facilities at BioFrontiers 
+                    (HPC/storage services, Advanced Light Microscopy, and Next-Generation Sequencing). It was created to identify patterns in 
+                    researchers' collaborative habits with their publication co-authors, across 
+                    their areas of research, their departments, and the funding tied to all of them; as well as compiling this data generated from 
+                    users' queries into custom tables. In its bare-bones, early beta version, it visualizes simple relationships between 
+                    researchers, their publications, 
+                    their departments/affiliations, and the core services they use, into complex networks that mirror the structure and 
+                    schema of the underlying graph database.
+                </p>
+                <p>
+                    I created the concept and designed the infrastructure, choosing a graph database for the fastest performance while users are making 
+                    many exploratory queries, and while executing path traversal algorithms. I built the Flask app to translate users' simple 
+                    point-and-click interactions 
+                    into complex Cypher queries, to generate an interactive network-like graph. The data was aggregated and processed by ETL pipelines I 
+                    created in StreamSets, and written to a self-hosted Neo4j graph database instance. 
+                </p>
+                <h4 class="text-center">Technology &bull; Frameworks &bull; Languages</h4>
+                <ul class="list-unstyled text-center" style="columns: 5;">
+                    <li>Flask</li>
+                    <li>Neo4j</li>
+                    <li>StreamSets</li>
+                    <li>ETL Pipelines</li>
+                    <li>Bootstrap</li>
+                    <li>Python</li>
+                    <li>Cypher</li>
+                    <li>JavaScript</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                </ul>
+            </div>
+            <hr>
+            <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="qfadd" data-toggle="collapse" data-target="#qfaddDetail">
+                <div class="card project-card">
+                    <div class="row">
+                        <div class="card-img-container col-md-3">
+                            <img src="{% static 'img/qfadd.gif' %}" alt="Q-FADD Preview" style="width: 100%; height: 100%;">
+                        </div>
+                        <div class="card-body col-md-9">
+                            <h2 class="card-title">Q-FADD Pipeline Server</h2>
+                            <p class="card-text">Web-accessible biophysics pipelines powered by parallel computing</p>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            <div class="container collapse project-detail" id="qfaddDetail">
+                <img src="{% static 'img/qfadd.gif' %}" alt="qfadd Usage" style="width: 100%; height: 100%; margin: 1em 0 2em 0;">
+                <p>
+                    <strong>Quantitation of Fluourescence Accumulation aftter DNA Damage (<a href="https://doi.org/10.1016/j.bpj.2019.04.032" target="_blank" rel="noopener noreferrer">Q-FADD</a>)</strong> 
+                    is a piece of biophysics software that implements an analysis routine with free diffusion models to quantify the accumulation of 
+                    fluorescenctly labeled proteins at the sites of DNA damage. The first of its pipelines analyzes movie files generated from fluourescence 
+                    microscopy experiments, and processes them into files more appropriate for analytical model-fitting. The second pipeline uses these files 
+                    to do the actual model-fitting computations in a grid-search routine. Both of these pipelines utilize parallel computing across a 24-core 
+                    HPC node. I contributed to some of the testing & bug finding of this software.
+                </p>
+                <p>
+                    After installing the software to a custom HPC node environment, I created a Django app that could directly leverage this software. 
+                    The app allows researchers to generate both types of pipelines from a simple GUI that takes uploaded files and input parameters. 
+                    The intuitive manager interface also lets users immediately use output files from the first pipeline as input files to the second one, 
+                    with one click. Users can also manage jobs and monitor their status, as well as download their results directly in this interface. The backend 
+                    runs Celery to create asynchronous job queues and workers configured specifically for each type of job, and to balance system 
+                    load when handling multiple users' jobs at once. Users are notified of pipeline events and details via email alerts.
+                </p>
+                <h4 class="text-center">Technology &bull; Frameworks &bull; Languages</h4>
+                <ul class="list-unstyled text-center" style="columns: 5;">
+                    <li>Django</li>
+                    <li>Celery</li>
+                    <li>RabbitMQ</li>
+                    <li>MySQL</li>
+                    <li>Bootstrap</li>
+                    <li>Python</li>
+                    <li>JavaScript</li>
+                    <li>LDAP</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                </ul>
+            </div>
+            <hr>
+            <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="bit" data-toggle="collapse" data-target="#bitDetail">
+                <div class="card project-card">
+                    <div class="row">
+                        <div class="card-img-container col-md-3">
+                            <img src="{% static 'img/bit.gif' %}" alt="BIT Site Preview" style="width: 100%; height: 100%;">
+                        </div>
+                        <div class="card-body col-md-9">
+                            <h2 class="card-title">BioFrontiers IT Website</h2>
+                            <p class="card-text">A responsive, CMS-backed website serving a knowledge base, documentation, workshops, webinars, and more</p>
+                        </div>
+                    </div>
+                </div>
+            </button>
+            <div class="container collapse project-detail" id="bitDetail">
+                <a href="https://bit.colorado.edu" class="project-link" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/bit.gif' %}" alt="BIT Site Usage" style="width: 100%; height: 100%; margin: 1em 0 2em 0;">
+                    <div class="link-content">
+                        <i class="fas fa-external-link-alt fa-2x"></i>
+                    </div>
+                </a>
+                <p>
+                    The BioFrontiers IT website serves a large spectrum of users and the resources they look for, including documentation on HPC services, 
+                    remote storage and virtual machine hosting services, desktop and A/V support, news and events, workshops, and webinars. The site runs on 
+                    a custom Wagtail solution designed to give the entire IT team the power to easily manage content, maintainance alerts, and events with 
+                    just a few clicks.
+                </p>
+                <p>
+                    I created the site from scratch, starting with a blank instance of the Python-based Wagtail CMS, and built custom models, content types, 
+                    and frontend components specific to BIT's needs. These frontend and backend modules are dynamic, and allow team members to generate 
+                    fully-featured, polished content in a matter of seconds. A custom user permissions solution integrated with LDAP also restricts access to 
+                    certain content only viewable to researchers. A full search backend integrating tags, categories, and page keywords is powered with 
+                    Elasticsearch.
+                </p>
+                <h4 class="text-center">Technology &bull; Frameworks &bull; Languages</h4>
+                <ul class="list-unstyled text-center" style="columns: 5;">
+                    <li>Django</li>
+                    <li>Wagtail</li>
+                    <li>Elasticsearch</li>
+                    <li>MySQL</li>
+                    <li>Bootstrap</li>
+                    <li>Python</li>
+                    <li>JavaScript</li>
+                    <li>LDAP</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container d-sm-flex justify-content-sm-between text-center">
+
+            <div class="small">
+                <i class="far fa-envelope fa-lg align-middle mr-1"></i> <a href="mailto:theethankern@gmail.com">theethankern@gmail.com</a>
+            </div>
+    
+            <div id="social" class="my-2 my-sm-0 order-sm-3">
+                <a href="https://www.linkedin.com/in/ethanjkern" title="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-lg fa-linkedin"></i></a>
+            </div>
+    
+            <div class="small">
+                © 2020 Ethan Kern
+            </div>
+    
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="{% static 'jquery/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.js" integrity="sha256-2JRzNxMJiS0aHOJjG+liqsEOuBb6++9cY4dSOyiijX4=" crossorigin="anonymous"></script>
+</body>
+</html>

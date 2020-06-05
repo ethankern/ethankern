@@ -1,0 +1,136 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+h1,h2,h3,h4 {
+    margin-top: 1.2em;
+    margin-bottom: .6em;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+    font-weight: 500;
+}
+
+a {
+    color: #4bbbff;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+a:hover {
+    /* color: #1d4c8a; */
+    text-decoration: none;
+}
+
+.template-projects {
+    overflow: auto;
+    background-color: #0b132b;
+    /* background-image: linear-gradient(180deg,#7e7e86 10%,#747582 100%); */
+    background-image: linear-gradient(180deg,#14263b 10%,#0c1821 100%);
+    color: #fafafa;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.7;
+}
+.template-projects > .container {
+    max-width: 1000px;
+    min-height: max-content;
+    margin-bottom: 2em;
+    padding-bottom: 2em;
+}
+.template-projects hr {
+    border-color: #fafafa;
+}
+.projects {
+    margin-top: 2em;
+}
+
+.project-button {
+    background: transparent;
+    /* border: 2px solid transparent; */
+    border: none;
+    border-radius: 8px;
+    color: inherit;
+}
+.project-button:hover,
+.project-button:active,
+.project-button:focus {
+    color: inherit;
+    /* background-color: #224675; */
+    background-color: #1d4c8a;
+    /* border: 2px solid #224675; */
+    border: none;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.projects [data-toggle="collapse"]::after {
+    content: '-';
+    width: 0;
+    text-align: center;
+    position: absolute;
+    top: 45%;
+    right: 1em;
+    font-size: 1.2em;
+}
+.projects [data-toggle="collapse"].collapsed::after {
+    content: '+';
+}
+#bit.collapsed {
+    margin-bottom: 10vh;
+}
+
+.project-card {
+    background: transparent;
+    border: none;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.project-card .card-title {
+    margin-top: 0.4em;
+}
+
+.project-detail {
+    padding: 1.5em 10%;
+}
+.project-link {
+    position: relative;
+}
+.project-link:hover {
+    background-color: #fafafa;
+    opacity: 0.7;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.project-link:hover .link-content {
+    display: block;
+}
+.link-content {
+    position:absolute;
+    top:50%;
+    left:50%;
+    color: #000000;
+    display: none;
+}
+
+.project-tech .text-right {
+    border-right: 1px solid;
+}
+.project-tech ul {
+    margin: 0;
+}
+.project-tech .text-right h4 {
+    margin: 0.8rem;
+}
+
+footer {
+    background-color: #09131a;
+    margin-top: 2.5em;
+    padding: 1.6em;
+}
+@media (min-width: 576px) {
+    #social {
+      padding-left: 3em;
+    }
+  }

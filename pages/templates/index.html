@@ -1,0 +1,286 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <title>Full Stack Development | Ethan Kern</title>
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    </head>
+    <body>
+
+        <script src="{% static 'js/three.min.js' %}"></script>
+        <script src="{% static 'js/OrbitControls.js' %}"></script>
+
+        <script>
+
+            var camera, cameraTarget, scene, renderer, controls, group;
+
+            var raycaster = new THREE.Raycaster();
+            var mouse = new THREE.Vector3(), INTERSECTED;
+            var target = new THREE.Vector2();
+            var windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
+
+            
+            init();
+            render();
+
+            function init() {
+
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x0c1821);
+                // scene.fog = new THREE.Fog(scene.background, 10, 20);
+                var aspect = window.innerWidth / window.innerHeight;
+                var fov = 90;
+                var near = 0.1;
+                var far = 2000;
+                camera = new THREE.PerspectiveCamera(fov, aspect, near, far); camera.position.set(0,0,1.2);
+                cameraTarget = new THREE.Vector3();
+                cameraTarget.copy(camera.position);
+                renderer = new THREE.WebGLRenderer({antialias: true});
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                document.body.appendChild(renderer.domElement);
+
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                // controls.addEventListener('change', render); // Only if no animation loop (requestAnimationFrame())
+                controls.enablePan = true;
+                controls.enableZoom = true;
+                controls.enableRotate = true;
+                controls.enableDamping = true;
+
+                var aLight = new THREE.AmbientLight(0x555555, 9);
+                scene.add(aLight);
+
+                var dLight = new THREE.DirectionalLight(0xffffff, 0.3);
+                dLight.position.set(0, 2, 2);
+                scene.add(dLight);
+
+                var pageGeo = new THREE.BoxGeometry(1, 1, 2);
+                var roundedRectShape = new THREE.Shape();
+
+				( function roundedRect( ctx, x, y, width, height, radius ) {
+
+					ctx.moveTo( x, y + radius );
+					ctx.lineTo( x, y + height - radius );
+					ctx.quadraticCurveTo( x, y + height, x + radius, y + height );
+					ctx.lineTo( x + width - radius, y + height );
+					ctx.quadraticCurveTo( x + width, y + height, x + width, y + height - radius );
+					ctx.lineTo( x + width, y + radius );
+					ctx.quadraticCurveTo( x + width, y, x + width - radius, y );
+					ctx.lineTo( x + radius, y );
+					ctx.quadraticCurveTo( x, y, x, y + radius );
+
+				} )( roundedRectShape, 0, -0.6, 5, 5, 1.6 );
+                var material = new THREE.MeshStandardMaterial({
+                    color: 0x5c677d,
+                    roughness: 0.4,
+                    metalness: 0.8,
+                });
+                // var middleCube = new THREE.Mesh(pageGeo, material); middleCube.userData = {URL: '{% url "projects" %}'};
+                var leftCube = new THREE.Mesh(pageGeo, material.clone()); leftCube.userData = {URL: 'https://google.com'};
+                var rightCube = new THREE.Mesh(pageGeo, material.clone());
+                // scene.add(leftCube).add(rightCube);
+
+                leftCube.position.z = -1.2;
+                leftCube.position.x = -2;
+                leftCube.rotation.y = Math.PI/4;
+
+                // middleCube.position.z = -1.5;
+
+                rightCube.position.z = -1.2;
+                rightCube.position.x = 2;
+                rightCube.rotation.y = -Math.PI/4;
+
+                var loader = new THREE.FontLoader();
+                loader.load('static/fonts/montserrat_semibold.typeface.json', function (font) {
+                    var xMid, text;
+                    var color = 0xffffff;
+                    var textMat = new THREE.LineBasicMaterial( {
+						color: color,
+						side: THREE.DoubleSide
+					} );
+                    var message = "Projects";
+					var shapes = font.generateShapes( message, 0.14 );
+					var geometry = new THREE.ShapeBufferGeometry( shapes );
+
+					geometry.computeBoundingBox();
+					xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+					geometry.translate( xMid, -0.1, 0 );
+
+					// make shape ( N.B. edge view not visible )
+					text = new THREE.Mesh( geometry, textMat );
+                    text.name = 'projectsText';
+					text.userData = {URL: '{% url "projects" %}'};
+                    text.position.z = -0.49;
+					scene.add( text );
+
+					shapes.push.apply( shapes );
+                });
+                loader.load('static/fonts/montserrat_medium.typeface.json', function (font) {
+                    var xMid, text;
+                    var color = 0xffffff;
+                    var textMat = new THREE.LineBasicMaterial( {
+						color: color,
+						side: THREE.DoubleSide
+					} );
+                    var message = "            Ethan Kern\nFull Stack Development";
+					var shapes = font.generateShapes( message, 0.14 );
+					var geometry = new THREE.ShapeBufferGeometry( shapes );
+
+					geometry.computeBoundingBox();
+					xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+					geometry.translate( xMid, 1, 0 );
+
+					// make shape ( N.B. edge view not visible )
+					text = new THREE.Mesh( geometry, textMat );
+                    text.name = 'titleText';
+                    text.position.z = -0.49;
+					scene.add( text );
+
+					shapes.push.apply( shapes );
+                });
+
+                function addShape( shape, extrudeSettings, color, x, y, z, rx, ry, rz, s, userData ) {
+
+                    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+                    var mesh = new THREE.Mesh( geometry, material.clone() );
+                    mesh.userData = userData;
+                    mesh.position.set( x, y, z );
+                    mesh.rotation.set( rx, ry, rz );
+                    mesh.scale.set( s, s, s );
+                    group.add( mesh );
+
+                }
+
+                group = new THREE.Group();
+				scene.add( group );
+                var extrudeSettings = { depth: 2, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 0.5, bevelThickness: 1 };
+
+                addShape( roundedRectShape, extrudeSettings, 0x5c677d, -0.5, -0.5, -1.1, 0, 0, 0, 0.2, {URL: '{% url "projects" %}'} );
+
+
+                window.addEventListener('resize', onWindowResize, false);
+                document.addEventListener('mousemove', onDocumentMouseMove, false);
+                document.addEventListener('mouseup', onDocumentMouseUp, false);
+            }
+
+            function onDocumentMouseMove(event) {
+                event.preventDefault();
+                var e = event.touches && event.touches[0] || event;
+                // Normalize device coordinates
+                mouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
+                mouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
+
+                cameraTarget.x = - mouse.x * 0.3;
+                cameraTarget.y = - mouse.y * 0.3;
+
+                raycaster.setFromCamera(mouse, camera);
+
+                var intersects = raycaster.intersectObjects(scene.children, true);
+                if (intersects.length > 0) {
+                    document.body.style.cursor = 'pointer';
+                    if (intersects[0].object != INTERSECTED) {
+                        // Restore state of any previously intersected object
+                        if (INTERSECTED) {
+                            INTERSECTED.material.color.setHex(INTERSECTED.currentHex)
+                        }
+                        // Store new closest intersect and its color, and change color
+                        if (intersects[0].object.name.endsWith('Text')) {
+                            INTERSECTED = intersects[1].object;
+                        }
+                        else {
+                            INTERSECTED = intersects[0].object;
+                        }
+                        INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+                        // INTERSECTED.material.color.setHex(0x223954);
+                        INTERSECTED.material.color.setHex(0x1d4c8a);
+                    }
+                }
+                else {
+                    document.body.style.cursor = 'default';
+                    // Restore state of any previously intersected object
+                    if (INTERSECTED) {
+                        INTERSECTED.material.color.setHex(INTERSECTED.currentHex)
+                    }
+                    // Clear previously intersected object
+                    INTERSECTED = null;
+                }
+            }
+
+            function onDocumentMouseUp(event) {
+                event.preventDefault();
+                mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+                mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                // TODO: Only trigger links for cube objects (using a group maybe?)
+                var intersects = raycaster.intersectObjects(scene.children, true);
+                if (intersects.length > 0) {
+                    // Ideally should loop over all intersecting objects, but we only have 1 for now
+                    if (intersects[0].object.userData.URL) {
+                        // window.open(intersects[0].object.userData.URL);
+                        location.href = intersects[0].object.userData.URL;
+                    }
+                }
+            }
+
+            function onWindowResize() {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                render();
+            }
+
+            // function getIntersects(x, y) {
+            //     x = ( x / window.innerWidth ) * 2 - 1;
+            //     y = - ( y / window.innerHeight ) * 2 + 1;
+
+            //     mouse.set(x, y, 0.5);
+            //     raycaster.setFromCamera(mouse, camera);
+
+            //     return raycaster.intersectObjects(group, true);
+            // }
+
+            // var animate = function () {
+            //     cube.rotation.x += 0.01;
+            //     renderer.render(scene, camera);
+            //     requestAnimationFrame(animate);
+            // }
+
+            // animate();
+            
+            function render() {
+                requestAnimationFrame(render);
+                controls.update();
+                // raycaster.setFromCamera(mouse, camera);
+                
+                // target.x = (1 - mouse.x) * 0.002
+                // target.y = (1 - mouse.y) * 0.002
+
+                // camera.rotation.x += 0.05 * (target.y - camera.rotation.x);
+                // camera.rotation.y += 0.05 * (target.x - camera.rotation.y);
+                // camera.lookAt(scene.position);
+
+                increment(camera.position, 'x', cameraTarget.x);
+				increment(camera.position, 'y', cameraTarget.y);
+
+                renderer.render(scene, camera);
+            }
+
+            function increment(object, prop, destination) {
+				if (object && object[prop] !== destination) {
+					object[prop] += (destination - object[prop]) * 0.1;
+
+					if (Math.abs(destination - object[prop]) < 0.01) {
+						object[prop] = destination;
+					}
+				}
+			}
+
+        </script>
+
+    </body>
+
+</html>
