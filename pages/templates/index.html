@@ -4,6 +4,7 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <title>Full Stack Development | Ethan Kern</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}">
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168846055-1"></script>
@@ -22,7 +23,7 @@
 
         <script>
 
-            var camera, cameraTarget, scene, renderer, controls, group;
+            var camera, cameraTarget, scene, renderer, controls, blocks, titleText = [], animOrder = [];
 
             var raycaster = new THREE.Raycaster();
             var mouse = new THREE.Vector3(), INTERSECTED;
@@ -84,21 +85,16 @@
                     color: 0x5c677d,
                     roughness: 0.4,
                     metalness: 0.8,
+                    transparent: true,
+                    opacity: 0,
                 });
-                // var middleCube = new THREE.Mesh(pageGeo, material); middleCube.userData = {URL: '{% url "projects" %}'};
-                var leftCube = new THREE.Mesh(pageGeo, material.clone()); leftCube.userData = {URL: 'https://google.com'};
-                var rightCube = new THREE.Mesh(pageGeo, material.clone());
-                // scene.add(leftCube).add(rightCube);
 
-                leftCube.position.z = -1.2;
-                leftCube.position.x = -2;
-                leftCube.rotation.y = Math.PI/4;
-
-                // middleCube.position.z = -1.5;
-
-                rightCube.position.z = -1.2;
-                rightCube.position.x = 2;
-                rightCube.rotation.y = -Math.PI/4;
+                var leftBlock = new THREE.Group();
+                leftBlock.name = 'leftBlock';
+                var middleBlock= new THREE.Group();
+                middleBlock.name = 'middleBlock';
+                var rightBlock= new THREE.Group();
+                rightBlock.name = 'rightBlock';
 
                 var loader = new THREE.FontLoader();
                 loader.load('static/fonts/montserrat_semibold.typeface.json', function (font) {
@@ -106,7 +102,9 @@
                     var color = 0xffffff;
                     var textMat = new THREE.LineBasicMaterial( {
 						color: color,
-						side: THREE.DoubleSide
+						side: THREE.DoubleSide,
+                        transparent: true,
+                        opacity: 0,
 					} );
                     var message = "Projects";
 					var shapes = font.generateShapes( message, 0.14 );
@@ -119,9 +117,12 @@
 					// make shape ( N.B. edge view not visible )
 					text = new THREE.Mesh( geometry, textMat );
                     text.name = 'projectsText';
-					text.userData = {URL: '{% url "projects" %}'};
+					text.userData = {
+                        clickable: true,
+                        URL: '{% url "projects" %}'
+                    };
                     text.position.z = -0.49;
-					scene.add( text );
+                    middleBlock.add( text );
 
 					shapes.push.apply( shapes );
                 });
@@ -130,7 +131,9 @@
                     var color = 0xffffff;
                     var textMat = new THREE.LineBasicMaterial( {
 						color: color,
-						side: THREE.DoubleSide
+						side: THREE.DoubleSide,
+                        transparent: true,
+                        opacity: 0,
 					} );
                     var message = "            Ethan Kern\nFull Stack Development";
 					var shapes = font.generateShapes( message, 0.14 );
@@ -143,13 +146,18 @@
 					// make shape ( N.B. edge view not visible )
 					text = new THREE.Mesh( geometry, textMat );
                     text.name = 'titleText';
+					text.userData = {
+                        clickable: false,
+                    };
                     text.position.z = -0.49;
-					scene.add( text );
+                    titleText.push(text);
+					animOrder.push(titleText);
+                    scene.add( text );
 
 					shapes.push.apply( shapes );
                 });
 
-                function addShape( shape, extrudeSettings, color, x, y, z, rx, ry, rz, s, userData ) {
+                function addShape( group, shape, extrudeSettings, color, x, y, z, rx, ry, rz, s, userData ) {
 
                     var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
@@ -159,15 +167,18 @@
                     mesh.rotation.set( rx, ry, rz );
                     mesh.scale.set( s, s, s );
                     group.add( mesh );
-
+                    blocks.add( group );
                 }
 
-                group = new THREE.Group();
-				scene.add( group );
+                blocks = new THREE.Group();
+                blocks.name = 'blocks';
+				scene.add( blocks );
+                animOrder.push(blocks);
                 var extrudeSettings = { depth: 2, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 0.5, bevelThickness: 1 };
 
-                addShape( roundedRectShape, extrudeSettings, 0x5c677d, -0.5, -0.5, -1.1, 0, 0, 0, 0.2, {URL: '{% url "projects" %}'} );
-
+                addShape( leftBlock, roundedRectShape, extrudeSettings, 0x5c677d, -2, -0.5, -0.8, 0, Math.PI/6, 0, 0.2, {clickable: false} );
+                addShape( middleBlock, roundedRectShape, extrudeSettings, 0x5c677d, -0.5, -0.5, -1.1, 0, 0, 0, 0.2, {clickable: true, URL: '{% url "projects" %}'} );
+                addShape( rightBlock, roundedRectShape, extrudeSettings, 0x5c677d, 1.12, -0.5, -1.25, 0, -Math.PI/6, 0, 0.2, {clickable: false} );
 
                 window.addEventListener('resize', onWindowResize, false);
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
@@ -188,7 +199,9 @@
 
                 var intersects = raycaster.intersectObjects(scene.children, true);
                 if (intersects.length > 0) {
-                    document.body.style.cursor = 'pointer';
+                    if (intersects[0].object.userData.clickable) {
+                        document.body.style.cursor = 'pointer';
+                    }
                     if (intersects[0].object != INTERSECTED) {
                         // Restore state of any previously intersected object
                         if (INTERSECTED) {
@@ -196,14 +209,18 @@
                         }
                         // Store new closest intersect and its color, and change color
                         if (intersects[0].object.name.endsWith('Text')) {
-                            INTERSECTED = intersects[1].object;
+                            if (intersects[1]) {
+                                INTERSECTED = intersects[1].object;
+                            }
                         }
                         else {
                             INTERSECTED = intersects[0].object;
                         }
-                        INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-                        // INTERSECTED.material.color.setHex(0x223954);
-                        INTERSECTED.material.color.setHex(0x1d4c8a);
+                        if (INTERSECTED) {
+                            INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+                            // INTERSECTED.material.color.setHex(0x223954);
+                            INTERSECTED.material.color.setHex(0x1d4c8a);
+                        }
                     }
                 }
                 else {
@@ -226,7 +243,7 @@
                 var intersects = raycaster.intersectObjects(scene.children, true);
                 if (intersects.length > 0) {
                     // Ideally should loop over all intersecting objects, but we only have 1 for now
-                    if (intersects[0].object.userData.URL) {
+                    if (intersects[0].object.userData && intersects[0].object.userData.URL) {
                         // window.open(intersects[0].object.userData.URL);
                         location.href = intersects[0].object.userData.URL;
                     }
@@ -272,15 +289,34 @@
                 // camera.rotation.y += 0.05 * (target.x - camera.rotation.y);
                 // camera.lookAt(scene.position);
 
-                increment(camera.position, 'x', cameraTarget.x);
-				increment(camera.position, 'y', cameraTarget.y);
+                increment(1, camera.position, 'x', cameraTarget.x);
+                increment(1, camera.position, 'y', cameraTarget.y);
+                
+                if (!(blocks.children[2].children[0].material.opacity == 1)) {
+
+                    titleText.forEach(obj => {
+                        setTimeout( () => {
+                            increment(0.4, obj.material, 'opacity', 1);
+                        }, 100);
+                    });
+
+                    blocks.children.forEach( (block, i) => {
+                        setTimeout(() => {
+                            block.children.forEach( child => {
+                                setTimeout( () => {
+                                    increment(1.6, child.material, 'opacity', 1);
+                                }, 1);
+                            });
+                        }, 1500 + i*400);
+                    });
+                }
 
                 renderer.render(scene, camera);
             }
 
-            function increment(object, prop, destination) {
+            function increment(speed, object, prop, destination) {
 				if (object && object[prop] !== destination) {
-					object[prop] += (destination - object[prop]) * 0.1;
+					object[prop] += (destination - object[prop]) * 0.1 * speed;
 
 					if (Math.abs(destination - object[prop]) < 0.01) {
 						object[prop] = destination;
