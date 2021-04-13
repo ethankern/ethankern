@@ -191,6 +191,8 @@
                 window.addEventListener('resize', onWindowResize, false);
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
                 document.addEventListener('mouseup', onDocumentMouseUp, false);
+                document.addEventListener('touchstart', onDocumentTouchStart, false);
+                document.addEventListener('touchend', onDocumentTouchEnd, false);
             }
 
             function onDocumentMouseMove(event) {
@@ -246,6 +248,54 @@
                 event.preventDefault();
                 mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
                 mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                // TODO: Only trigger links for cube objects (using a group maybe?)
+                var intersects = raycaster.intersectObjects(scene.children, true);
+                if (intersects.length > 0) {
+                    // Ideally should loop over all intersecting objects, but we only have 1 for now
+                    if (intersects[0].object.userData && intersects[0].object.userData.URL) {
+                        // window.open(intersects[0].object.userData.URL);
+                        location.href = intersects[0].object.userData.URL;
+                    }
+                }
+            }
+
+            function onDocumentTouchStart(event) {
+                event.preventDefault();
+                mouse.x = ( event.changedTouches[0].clientX / window.innerWidth ) * 2 - 1;
+                mouse.y = - ( event.changedTouches[0].clientY / window.innerHeight ) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                // TODO: Only trigger links for cube objects (using a group maybe?)
+                var intersects = raycaster.intersectObjects(scene.children, true);
+                let INTERSECTED = null;
+                if (intersects.length > 0) {
+                    if (intersects[0].object != INTERSECTED) {
+                        // Restore state of any previously intersected object
+                        if (INTERSECTED) {
+                            INTERSECTED.material.color.setHex(INTERSECTED.currentHex)
+                        }
+                        // Store new closest intersect and its color, and change color
+                        if (intersects[0].object.name.endsWith('Text')) {
+                            if (intersects[1]) {
+                                INTERSECTED = intersects[1].object;
+                            }
+                        }
+                        else {
+                            INTERSECTED = intersects[0].object;
+                        }
+                        if (INTERSECTED) {
+                            INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+                            // INTERSECTED.material.color.setHex(0x223954);
+                            INTERSECTED.material.color.setHex(0x1d4c8a);
+                        }
+                    }
+                }
+            }
+
+            function onDocumentTouchEnd(event) {
+                event.preventDefault();
+                mouse.x = ( event.changedTouches[0].clientX / window.innerWidth ) * 2 - 1;
+                mouse.y = - ( event.changedTouches[0].clientY / window.innerHeight ) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
                 // TODO: Only trigger links for cube objects (using a group maybe?)
                 var intersects = raycaster.intersectObjects(scene.children, true);
