@@ -1,8 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Ethan Kern">
         <meta name="description" content="Full Stack Developer / Personal Portfolio Site">
         <meta name="keywords" content="Python, Django, Flask, React, Three.js, javascript, HTML, CSS, interactive, interaction, parallel computing, graph databases, Neo4j, WebGL, Celery, Docker, pipelines, sysadmin, full stack developer, web developer, software engineer, backend engineer, backend developer">
@@ -17,11 +18,6 @@
         gtag('js', new Date());
 
         gtag('config', 'UA-168846055-1');
-        </script>
-        <script>
-            // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                // some code..
-            // }
         </script>
     </head>
     <body>
@@ -38,6 +34,7 @@
             var target = new THREE.Vector2();
             var windowHalf = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 
+            var MOBILE_USER = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             init();
             render();
@@ -50,8 +47,10 @@
                 var aspect = window.innerWidth / window.innerHeight;
                 var fov = 90;
                 var near = 0.1;
-                var far = 2000;
-                camera = new THREE.PerspectiveCamera(fov, aspect, near, far); camera.position.set(0,0,1.2);
+                var far = 200;
+                var zPosition = MOBILE_USER ? (aspect > 0.5 ? 3.4 : 4) : 1.2;
+                camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+                camera.position.set(0, 0, zPosition);
                 cameraTarget = new THREE.Vector3();
                 cameraTarget.copy(camera.position);
                 renderer = new THREE.WebGLRenderer({antialias: true});
