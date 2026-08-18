@@ -94,6 +94,20 @@ a:hover {
 .project-card .card-title {
   margin-top: 0.4em;
 }
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-right: 1.5em;
+}
+.project-year {
+  margin: 0 0 0 1em;
+  flex-shrink: 0;
+  white-space: nowrap;
+  color: rgba(250, 250, 250, 0.6);
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 0.05em;
+}
 
 .project-detail {
   padding: 1.5em 10%;

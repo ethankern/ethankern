@@ -6,8 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Ethan Kern">
-        <meta name="description" content="Full Stack Developer / Personal Portfolio Site">
-        <meta name="keywords" content="Python, Django, Flask, React, Three.js, javascript, HTML, CSS, interactive, interaction, parallel computing, graph databases, Neo4j, WebGL, Celery, Docker, pipelines, sysadmin, full stack developer, web developer, software engineer, backend engineer, backend developer">
+        <meta name="description" content="Ethan Kern &mdash; software consulting and engineering. Architecture, full-stack development, and delivery for teams building web platforms and data systems.">
+        <meta name="keywords" content="Python, Django, Flask, React, Three.js, javascript, HTML, CSS, interactive, interaction, parallel computing, graph databases, Neo4j, WebGL, Celery, Docker, pipelines, sysadmin, software consultant, software consulting, software architect, technical lead, full stack developer, web developer, software engineer, backend engineer, backend developer">
         <title>Projects | Ethan Kern</title>
 
         <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}"/>
@@ -40,6 +40,90 @@
             </h1>
             <div class="projects">
                 <hr>
+                <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="lending" data-toggle="collapse" data-target="#lendingDetail">
+                    <div class="card project-card">
+                        <div class="row">
+                            <div class="card-img-container col-md-3 col-4">
+                                <video autoplay loop muted playsinline>
+                                    <source src="{% static 'img/lending_thumb.webm' %}" type="video/webm">
+                                    <source src="{% static 'img/lending_thumb.mp4' %}" type="video/mp4">
+                                    Lending Platform Preview
+                                </video>
+                            </div>
+                            <div class="card-body col-md-9 col-8">
+                                <div class="card-title-row">
+                                    <h2 class="card-title">Commercial Lending Platform</h2>
+                                    <p class="project-year">2021&ndash;2023</p>
+                                </div>
+                                <p class="card-text">A micro-frontend platform taking commercial loans and leases from credit application to funded contract</p>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+                <div class="container collapse project-detail" id="lendingDetail">
+                    <div class="container-anim">
+                        <video width="100%" autoplay loop muted playsinline>
+                            <source src="{% static 'img/lending.webm' %}" type="video/webm">
+                            <source src="{% static 'img/lending.mp4' %}" type="video/mp4">
+                            Lending Platform Usage
+                        </video>
+                    </div>
+                    <p>
+                        This platform is the loan origination system a commercial lender puts in front of the independent
+                        firms that bring it business. Those partners submit credit applications on behalf of their borrowers,
+                        receive underwritten approvals, structure and price the resulting loan or lease against the terms of
+                        that approval, accept it, and then track the funded contracts in their portfolio. It replaced a
+                        workflow that had been running on emailed spreadsheets and phone calls to the credit desk.
+                    </p>
+                    <p>
+                        The product is composed of five independently built and deployed React/TypeScript applications behind
+                        a single shell. The shell resolves each application's build manifest at runtime, injects its bundle
+                        into the page, and hands it a render target &mdash; so the dashboard, application entry, pricing
+                        tool, portfolio, and resource center each ship on their own release cycles while the user sees one
+                        continuous app. A shared component library and Material-UI theme, deployed as a submodule across all
+                        six repositories, keeps them visually identical. Authentication runs on Azure AD B2C with custom
+                        sign-in and password-reset policies against a themed login, with an admin role that can view the
+                        portal as any partner firm. Behind it sit a Salesforce-backed origination API, a data warehouse for
+                        credit exposure lookups, and a headless CMS driving the marketing content.
+                    </p>
+                    <p>
+                        I was the lead developer on the platform, taking it over after the initial architecture had been
+                        scaffolded, and owning it through delivery across all five applications. The most demanding piece is
+                        the deal pricing engine. An approved application comes back from underwriting with rate floors, term
+                        bounds, and a set of eligible structures &mdash; loan, EFA, and several lease variants &mdash;
+                        further complicated by variables like collateral, trade-ins, and the borrower's state. From there, a partner can adjust
+                        payment, term, their own commission, residual, and seasonal step payments, and every one of those
+                        edits dynamically re-derives the buy rate against the underwriting matrix, then round-trips to an amortization
+                        service to solve for whichever value is now unknown: the monthly payment, the step amount, or the
+                        borrower's implied rate. I rebuilt this from tangled component state into a reducer-driven state
+                        machine, which is what finally kept form state, derived calculations, and in-flight API requests in
+                        agreement &mdash; and made the page fast enough for instant feedback with every interaction.
+                    </p>
+                    <p class="small font-italic">
+                        Note: all company names, branding, users, and every application, approval, and deal shown here are
+                        fictional, and the figures are synthetic &mdash; no client name, customer record, or production
+                        figure appears in this entry or the recording.
+                    </p>
+                    <h4 class="text-center">Technology &bull; Frameworks &bull; Languages</h4>
+                    <ul class="list-unstyled text-center" style="columns: 5;">
+                        <li>React</li>
+                        <li>TypeScript</li>
+                        <li>Micro-Frontends</li>
+                        <li>Material-UI</li>
+                        <li>Azure AD B2C</li>
+                        <li>Salesforce</li>
+                        <li>Strapi CMS</li>
+                        <li>Webpack</li>
+                        <li>React Query</li>
+                        <li>Application Insights</li>
+                        <li>Jest</li>
+                        <li>Cucumber</li>
+                        <li>JavaScript</li>
+                        <li>SCSS</li>
+                        <li>HTML</li>
+                    </ul>
+                </div>
+                <hr>
                 <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="tfea" data-toggle="collapse" data-target="#tfeaDetail">
                     <div class="card project-card">
                         <div class="row">
@@ -51,7 +135,10 @@
                                 </video>
                             </div>
                             <div class="card-body col-md-9 col-8">
-                                <h2 class="card-title">TFEA Pipeline Server</h2>
+                                <div class="card-title-row">
+                                    <h2 class="card-title">TFEA Pipeline Server</h2>
+                                    <p class="project-year">2020</p>
+                                </div>
                                 <p class="card-text">A web-accessible bioinformatics pipeline powered by parallel computing</p>
                             </div>
                         </div>
@@ -108,7 +195,10 @@
                                 </video>
                             </div>
                             <div class="card-body col-md-9 col-8">
-                                <h2 class="card-title">COVID-19 Dashboard</h2>
+                                <div class="card-title-row">
+                                    <h2 class="card-title">COVID-19 Dashboard</h2>
+                                    <p class="project-year">2020</p>
+                                </div>
                                 <p class="card-text">An interactive dashboard to analyze population movement using Facebook data</p>
                             </div>
                         </div>
@@ -166,7 +256,10 @@
                                 </video>
                             </div>
                             <div class="card-body col-md-9 col-8">
-                                <h2 class="card-title">BioFrontiers CollabViz</h2>
+                                <div class="card-title-row">
+                                    <h2 class="card-title">BioFrontiers CollabViz</h2>
+                                    <p class="project-year">2020</p>
+                                </div>
                                 <p class="card-text">A research-oriented collaboration visualizer for the BioFrontiers Institute</p>
                             </div>
                         </div>
@@ -223,7 +316,10 @@
                                 </video>
                             </div>
                             <div class="card-body col-md-9 col-8">
-                                <h2 class="card-title">Q-FADD Pipeline Server</h2>
+                                <div class="card-title-row">
+                                    <h2 class="card-title">Q-FADD Pipeline Server</h2>
+                                    <p class="project-year">2019</p>
+                                </div>
                                 <p class="card-text">Web-accessible biophysics pipelines powered by parallel computing</p>
                             </div>
                         </div>
@@ -279,7 +375,10 @@
                                 </video>
                             </div>
                             <div class="card-body col-md-9 col-8">
-                                <h2 class="card-title">BioFrontiers IT Website</h2>
+                                <div class="card-title-row">
+                                    <h2 class="card-title">BioFrontiers IT Website</h2>
+                                    <p class="project-year">2019-2020</p>
+                                </div>
                                 <p class="card-text">A responsive, CMS-backed website serving a knowledge base, documentation, workshops, webinars, and more</p>
                             </div>
                         </div>
@@ -336,7 +435,7 @@
                 </div>
         
                 <div class="small">
-                    © 2021 Ethan Kern
+                    © {% now "Y" %} Ethan Kern
                 </div>
 
                 <div id="social">
