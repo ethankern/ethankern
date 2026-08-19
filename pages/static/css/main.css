@@ -91,6 +91,9 @@ a:hover {
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+.project-card .row {
+  align-items: center;
+}
 .project-card .card-title {
   margin-top: 0.4em;
 }
