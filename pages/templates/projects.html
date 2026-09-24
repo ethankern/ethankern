@@ -124,6 +124,87 @@
                     </ul>
                 </div>
                 <hr>
+                <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="butchersGuide" data-toggle="collapse" data-target="#butchersGuideDetail">
+                    <div class="card project-card">
+                        <div class="row">
+                            <div class="card-img-container col-md-3 col-4">
+                                <video autoplay loop muted playsinline>
+                                    <source src="{% static 'img/butchers_guide_thumb.webm' %}" type="video/webm">
+                                    <source src="{% static 'img/butchers_guide_thumb.mp4' %}" type="video/mp4">
+                                    Butcher's Guide Preview
+                                </video>
+                            </div>
+                            <div class="card-body col-md-9 col-8">
+                                <div class="card-title-row">
+                                    <h2 class="card-title">Butcher's Guide</h2>
+                                    <p class="project-year">2020&ndash;Present</p>
+                                </div>
+                                <p class="card-text">A global, crowdsourced hub reconnecting communities with independent butchers, butcher shops, and the farms behind their food</p>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+                <div class="container collapse project-detail" id="butchersGuideDetail">
+                    <a href="https://thebutchersguide.com" class="project-link" target="_blank" rel="noopener noreferrer">
+                        <div class="container-anim">
+                            <video width="100%" autoplay loop muted playsinline>
+                                <source src="{% static 'img/butchers_guide.webm' %}" type="video/webm">
+                                <source src="{% static 'img/butchers_guide.mp4' %}" type="video/mp4">
+                                Butcher's Guide Usage
+                            </video>
+                            <div class="link-content">
+                                <i class="fas fa-external-link-alt fa-2x"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <p>
+                        Most meat now reaches people through long, industrial supply chains run by a handful of large companies,
+                        and few people know where theirs was raised or who cut it. Butcher's Guide is on a mission to shorten that
+                        chain. It connects people with independent butchers, butcher shops, and the farms that supply them, so
+                        communities can find their food close to home and know where it comes from. Every purchase made this way
+                        keeps money with independent businesses instead of large corporations, and shorter supply chains mean less
+                        fuel burned and fewer emissions moving food around. For butchers and shop owners, the site is also a
+                        resource: a place to be found, to tell their story, and to win back customers from the supermarket.
+                    </p>
+                    <p>
+                        The global directory utilizes a custom map of every personally endorsed shop, searchable by name, location, 
+                        or specialty. Inside it lives a network of shop profiles, community photo galleries, browsing by tag, 
+                        an A&ndash;Z directory, editorial articles, helpful content for butchers, and a merch store. The directory is
+                        crowdsourced, where anyone can add a shop, and owners can open an account in the same step so they
+                        can manage their profile later. The shop profiles use a five-step onboarding wizard, where Google Places 
+                        autocomplete fills in the structured address and map coordinates. It also provides a photo managemer that
+                        stages removals, captions, and banner changes in the browser, then applies them in a single atomic transaction.
+                    </p>
+                    <p>
+                        The site pairs a React front end with the Wagtail CMS and Django keeping control of routing on the backend. 
+                        Every screen leverages a Routable Wagtail Page to turn a single CMS page into whole families of URLs 
+                        (shop profile, profile edit, gallery, photo management, tag listings, etc.). Each page takes advantage of a 
+                        full Django backend, then mounts a lazily loaded React/TypeScript view on top of it. Every shop gets a clean,
+                        server-routed URL, and editorial content, moderation, and uploads all stay in the Wagtail admin for 
+                        Butcher's Guide staff to have access to. Webpack splits the app into route chunks, which are injected in 
+                        dependency order to achieve a micro-frontend style performance gains. Celery manages account activation, 
+                        password-reset, and all other emails in the background.
+                    </p>
+                    <h4 class="text-center">Technology &bull; Frameworks &bull; Languages</h4>
+                    <ul class="list-unstyled text-center" style="columns: 5;">
+                        <li>Django</li>
+                        <li>Wagtail</li>
+                        <li>React</li>
+                        <li>TypeScript</li>
+                        <li>Material-UI</li>
+                        <li>Google Maps API</li>
+                        <li>Celery</li>
+                        <li>Redis</li>
+                        <li>PostgreSQL</li>
+                        <li>reCAPTCHA</li>
+                        <li>Webpack</li>
+                        <li>Python</li>
+                        <li>JavaScript</li>
+                        <li>HTML</li>
+                        <li>CSS</li>
+                    </ul>
+                </div>
+                <hr>
                 <button type="button" class="list-group-item list-group-item-action collapsed project-button" id="tfea" data-toggle="collapse" data-target="#tfeaDetail">
                     <div class="card project-card">
                         <div class="row">
