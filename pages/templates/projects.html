@@ -78,7 +78,7 @@
                     <p>
                         The product is composed of five independently built and deployed React/TypeScript applications behind
                         a single shell. The shell resolves each application's build manifest at runtime, injects its bundle
-                        into the page, and hands it a render target &mdash; so the dashboard, application entry, pricing
+                        into the page, and hands it a render target, so the dashboard, application entry, pricing
                         tool, portfolio, and resource center each ship on their own release cycles while the user sees one
                         continuous app. A shared component library and Material-UI theme, deployed as a submodule across all
                         six repositories, keeps them visually identical. Authentication runs on Azure AD B2C with custom
@@ -90,14 +90,14 @@
                         I was the lead developer on the platform, taking it over after the initial architecture had been
                         scaffolded, and owning it through delivery across all five applications. The most demanding piece is
                         the deal pricing engine. An approved application comes back from underwriting with rate floors, term
-                        bounds, and a set of eligible structures &mdash; loan, EFA, and several lease variants &mdash;
-                        further complicated by variables like collateral, trade-ins, and the borrower's state. From there, a partner can adjust
+                        bounds, and a set of eligible structures (loan, EFA, and several lease variants), further complicated 
+                        by variables like collateral, trade-ins, and the borrower's state. From there, a partner can adjust
                         payment, term, their own commission, residual, and seasonal step payments, and every one of those
                         edits dynamically re-derives the buy rate against the underwriting matrix, then round-trips to an amortization
                         service to solve for whichever value is now unknown: the monthly payment, the step amount, or the
                         borrower's implied rate. I rebuilt this from tangled component state into a reducer-driven state
                         machine, which is what finally kept form state, derived calculations, and in-flight API requests in
-                        agreement &mdash; and made the page fast enough for instant feedback with every interaction.
+                        agreement, and made the page fast enough for instant feedback with every interaction.
                     </p>
                     <p class="small font-italic">
                         Note: all company names, branding, users, and every application, approval, and deal shown here are
