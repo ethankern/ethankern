@@ -172,17 +172,20 @@
                         an A&ndash;Z directory, editorial articles, helpful content for butchers, and a merch store. The directory is
                         crowdsourced, where anyone can add a shop, and owners can open an account in the same step so they
                         can manage their profile later. The shop profiles use a five-step onboarding wizard, where Google Places 
-                        autocomplete fills in the structured address and map coordinates. It also provides a photo managemer that
+                        autocomplete fills in the structured address and map coordinates. It also provides a photo manager that
                         stages removals, captions, and banner changes in the browser, then applies them in a single atomic transaction.
                     </p>
                     <p>
-                        The site pairs a React front end with the Wagtail CMS and Django keeping control of routing on the backend. 
+                        I am the founding engineer and have been the only developer since the first commit. Beyond the code, I
+                        help shape the product itself, including what gets built, how it works, and how it serves both shoppers
+                        and shop owners. I have rebuilt the site in place several times as it grew. The site pairs a React front 
+                        end with the Wagtail CMS and Django keeping control of routing on the backend. 
                         Every screen leverages a Routable Wagtail Page to turn a single CMS page into whole families of URLs 
                         (shop profile, profile edit, gallery, photo management, tag listings, etc.). Each page takes advantage of a 
                         full Django backend, then mounts a lazily loaded React/TypeScript view on top of it. Every shop gets a clean,
                         server-routed URL, and editorial content, moderation, and uploads all stay in the Wagtail admin for 
                         Butcher's Guide staff to have access to. Webpack splits the app into route chunks, which are injected in 
-                        dependency order to achieve a micro-frontend style performance gains. Celery manages account activation, 
+                        dependency order to achieve micro-frontend-style performance gains. Celery manages account activation,
                         password-reset, and all other emails in the background.
                     </p>
                     <h4 class="text-center">Technology &bull; Frameworks &bull; Languages</h4>
